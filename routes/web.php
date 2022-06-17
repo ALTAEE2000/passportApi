@@ -1,6 +1,8 @@
 <?php
 
-use GuzzleHttp\Psr7\Request;
+use App\Models\User;
+use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,8 +27,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 // start dashboarf clients
-Route::get('dashboard/clients' , function(Request $request){
-    return view('clients' , [
-        'clients'=>$request->Auth::user()->clients,
+Route::get('clients' , function(){
+    return view('layouts.client' , [
+        'clients' => User::paginate(10)
     ]);
-});
+})->name('client')->middleware('auth');
